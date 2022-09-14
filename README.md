@@ -23,3 +23,12 @@ sudo docker run -d --name ethereum-events \
     -v '/home/<your path>/config.yaml':'/root/config.yaml' \
     cejay/ethereum-events:latest
 ```
+
+
+
+
+
+![cmd](./img/1.png)
+
+
+![mysql](./img/2.png)
