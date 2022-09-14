@@ -1,0 +1,35 @@
+# web3 config
+web3:
+  provider: "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+
+# mysql config
+mysql:
+  host: host.docker.internal
+#  host: "127.0.0.1"
+  port: 3306
+  user: "root"
+  password: "12345678"
+  database: "ethereumEventsDB"
+  charset: "utf8mb4"
+  table: "table_events"
+
+# contracts event config
+contracts:
+  - name: "USDC"
+    address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+    abi: "./abi/usdc.ABI.json"
+    # empty means all event
+    events: []
+    startBlock: 14704580
+    step: 20
+    # interval in seconds
+    interval: 5
+
+  - name: "BAYC"
+    address: "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"
+    abi: "./abi/bayc.ABI.json"
+    events: ["Transfer", "ApprovalForAll"]
+    startBlock: 14704581
+    step: 30
+    # interval in seconds
+    interval: 15
