@@ -4,7 +4,7 @@
  * @Autor: z.cejay@gmail.com
  * @Date: 2022-08-08 21:53:06
  * @LastEditors: cejay
- * @LastEditTime: 2022-09-14 22:18:29
+ * @LastEditTime: 2022-10-10 17:46:49
  */
 
 import { ContractConfig } from './entity/contractConfig';
@@ -76,7 +76,10 @@ async function _eventWatchForever(indexId: number, config: ContractConfig) {
     }
     // get last block
     let block_to = await web3.eth.getBlockNumber();
-    if (block_to - block_from > config.step) {
+    if (block_to <= block_from) {
+        console.log(`no new block, block_from=${block_from}, block_to=${block_to}`);
+        return true;
+    } else if (block_to - block_from > config.step) {
         block_to = block_from + config.step;
     } else {
         lastBlock = true;
@@ -138,7 +141,11 @@ async function _eventWatchForever(indexId: number, config: ContractConfig) {
         insertSQLTempl = `update ${yamlConfig.mysql.table} set logindex=${block_to},blockHash='${events[events.length - 1].blockHash}' where id=${indexId}`;
     } else {
         let block = await web3.eth.getBlock(block_to);
-        insertSQLTempl = `update ${yamlConfig.mysql.table} set logindex=${block_to},blockHash='${block.hash}' where id=${indexId}`;
+        if (block && block.hash) {
+            insertSQLTempl = `update ${yamlConfig.mysql.table} set logindex=${block_to},blockHash='${block.hash}' where id=${indexId}`;
+        } else {
+            throw new Error(`block is null, blockNumber=${block_to}`);
+        }
     }
     if (events.length > 0) {
         let valueArr: string[] = [];
