@@ -4,7 +4,7 @@
  * @Autor: z.cejay@gmail.com
  * @Date: 2022-08-08 21:53:06
  * @LastEditors: cejay
- * @LastEditTime: 2022-10-10 17:46:49
+ * @LastEditTime: 2022-10-18 19:58:44
  */
 
 import { ContractConfig } from './entity/contractConfig';
@@ -205,6 +205,7 @@ async function main() {
                     logIndex int unsigned NOT NULL,\
                     log json NOT NULL,\
                     invalid bit(1) NOT NULL DEFAULT b'0',\
+                    used bit(1) NOT NULL DEFAULT b'0',\
                     PRIMARY KEY (id),\
                     KEY __logevents_contract (contract),\
                     KEY __logevents_blockNumber (blockNumber DESC) USING BTREE,\
